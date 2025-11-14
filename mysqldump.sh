@@ -10,8 +10,11 @@ MYSQL_PASS="YourPassword"
 MYSQL_DB="your_database_name"
 # ----------------------------
 
-# Create local backup directory if not exists
-mkdir -p $BACKUP_DIR
+# Create local backup directory if NOT exists
+if [ ! -d "$BACKUP_DIR" ]; then
+  echo "[INFO] Backup directory not found. Creating..."
+  mkdir -p "$BACKUP_DIR"
+fi
 
 echo "[INFO] Taking MySQL backup..."
 mysqldump -u"$MYSQL_USER" -p"$MYSQL_PASS" "$MYSQL_DB" > "$BACKUP_DIR/$FILENAME"
