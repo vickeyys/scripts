@@ -1,0 +1,51 @@
+---
+- name: Deploy Disk, CPU, and Memory Alert Scripts
+  hosts: all
+  become: yes
+
+  tasks:
+
+    # -----------------------
+    # Copy Disk Script
+    # -----------------------
+    - name: Copy Disk Alert Script
+      copy:
+        src: disk_check.sh
+        dest: /usr/local/bin/disk_check.sh
+        mode: '0755'
+
+    - name: Cron for Disk Alert
+      cron:
+        name: "Disk Usage Alert"
+        job: "/usr/local/bin/disk_check.sh"
+        minute: "*/5"
+
+    # -----------------------
+    # Copy CPU Script
+    # -----------------------
+    - name: Copy CPU Alert Script
+      copy:
+        src: cpu_check.sh
+        dest: /usr/local/bin/cpu_check.sh
+        mode: '0755'
+
+    - name: Cron for CPU Alert
+      cron:
+        name: "CPU Usage Alert"
+        job: "/usr/local/bin/cpu_check.sh"
+        minute: "*/5"
+
+    # -----------------------
+    # Copy Memory Script
+    # -----------------------
+    - name: Copy Memory Alert Script
+      copy:
+        src: memory_check.sh
+        dest: /usr/local/bin/memory_check.sh
+        mode: '0755'
+
+    - name: Cron for Memory Alert
+      cron:
+        name: "Memory Usage Alert"
+        job: "/usr/local/bin/memory_check.sh"
+        minute: "*/5"
